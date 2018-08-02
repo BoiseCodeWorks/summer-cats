@@ -15,31 +15,52 @@ const mrSnibbly = {
   moodIndex: 0
 }
 
+const mittens = {
+  name: 'Mittens',
+  moods: [
+    'Sleepy',
+    'Bitey',
+    'She Gone!'
+  ],
+  moodImgs: [
+    'https://petcube.com/blog/content/images/2017/08/kitten-supplies-cover.jpg',
+    'https://www.catster.com/wp-content/uploads/2017/12/A-gray-kitten-meowing.jpg',
+    ""
+  ],
+  tolerance: 2,
+  pets: 0,
+  moodIndex: 0
+}
+
 const catImg = document.getElementById('cat-img')
 const catName = document.getElementById('name')
 const mood = document.getElementById('mood')
 const pets = document.getElementById('pets')
+const petButton = document.getElementById('pet-button')
 
-function draw() {
-  catImg.setAttribute('src', mrSnibbly.moodImgs[mrSnibbly.moodIndex])
-  catName.innerText = mrSnibbly.name
-  mood.innerText = mrSnibbly.moods[mrSnibbly.moodIndex]
-  pets.innerText = mrSnibbly.pets.toString()
-  if (mrSnibbly.pets > mrSnibbly.tolerance * 2) {
-    document.getElementById("pet-button").disabled = true;
+function draw(cat) {
+  catImg.setAttribute('src', cat.moodImgs[cat.moodIndex])
+  catName.innerText = cat.name
+  mood.innerText = cat.moods[cat.moodIndex]
+  pets.innerText = cat.pets.toString()
+  if (cat.pets >= cat.tolerance * 2) {
+    petButton.disabled = true;
   }
 }
 
-function pet() {
-  mrSnibbly.pets++;
-  if (mrSnibbly.pets % mrSnibbly.tolerance == 0) {
-    mrSnibbly.moodIndex++
+function pet(cat) {
+  cat.pets++;
+  if (cat.pets % cat.tolerance == 0) {
+    cat.moodIndex++
   }
   draw();
 }
 
-function reset() {
-
+function reset(cat) {
+  cat.pets = 0
+  cat.moodIndex = 0
+  petButton.disabled = false
+  draw()
 }
 
 draw()
