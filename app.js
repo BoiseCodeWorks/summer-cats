@@ -14,7 +14,6 @@ const mrSnibbly = {
   pets: 0,
   moodIndex: 0
 }
-
 const mittens = {
   name: 'Mittens',
   moods: [
@@ -31,6 +30,9 @@ const mittens = {
   pets: 0,
   moodIndex: 0
 }
+let activeCat = mrSnibbly
+
+let cats = [mrSnibbly, mittens]
 
 const catImg = document.getElementById('cat-img')
 const catName = document.getElementById('name')
@@ -38,29 +40,51 @@ const mood = document.getElementById('mood')
 const pets = document.getElementById('pets')
 const petButton = document.getElementById('pet-button')
 
-function draw(cat) {
-  catImg.setAttribute('src', cat.moodImgs[cat.moodIndex])
-  catName.innerText = cat.name
-  mood.innerText = cat.moods[cat.moodIndex]
-  pets.innerText = cat.pets.toString()
-  if (cat.pets >= cat.tolerance * 2) {
+function draw() {
+  catImg.setAttribute('src', activeCat.moodImgs[activeCat.moodIndex])
+  catName.innerText = activeCat.name
+  mood.innerText = activeCat.moods[activeCat.moodIndex]
+  pets.innerText = activeCat.pets.toString()
+  if (activeCat.pets >= activeCat.tolerance * 2) {
     petButton.disabled = true;
   }
 }
 
-function pet(cat) {
-  cat.pets++;
-  if (cat.pets % cat.tolerance == 0) {
-    cat.moodIndex++
+function pet() {
+  activeCat.pets++;
+  if (activeCat.pets % activeCat.tolerance == 0) {
+    activeCat.moodIndex++
   }
   draw();
 }
 
-function reset(cat) {
-  cat.pets = 0
-  cat.moodIndex = 0
+function reset() {
+  activeCat.pets = 0
+  activeCat.moodIndex = 0
   petButton.disabled = false
   draw()
 }
 
+
+function drawButtons() {
+  let template = ""
+  for (let i = 0; i < cats.length; i++) {
+    const cat = cats[i];
+    template += `
+    <button onclick= "setActiveCat(${i})">${cat.name}
+    </button>
+    `
+
+  }
+  document.getElementById("cat-buttons").innerHTML = template
+}
+
+function setActiveCat(catIndex) {
+  activeCat = cats[catIndex]
+
+  draw()
+}
+
+
+drawButtons()
 draw()
