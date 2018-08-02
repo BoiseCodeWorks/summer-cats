@@ -2,11 +2,13 @@ const mrSnibbly = {
   name: 'Mr. Snibbly',
   moods: [
     'Classy',
-    'Sassy'
+    'Sassy',
+    'He Gone!'
   ],
   moodImgs: [
     'assets/cat.jpg',
-    'assets/madcat.jpg'
+    'assets/madcat.jpg',
+    ""
   ],
   tolerance: 7,
   pets: 0,
@@ -23,10 +25,17 @@ function draw() {
   catName.innerText = mrSnibbly.name
   mood.innerText = mrSnibbly.moods[mrSnibbly.moodIndex]
   pets.innerText = mrSnibbly.pets.toString()
+  if (mrSnibbly.pets > mrSnibbly.tolerance * 2) {
+    document.getElementById("pet-button").disabled = true;
+  }
 }
 
 function pet() {
-
+  mrSnibbly.pets++;
+  if (mrSnibbly.pets % mrSnibbly.tolerance == 0) {
+    mrSnibbly.moodIndex++
+  }
+  draw();
 }
 
 function reset() {
